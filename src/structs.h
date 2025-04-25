@@ -25,7 +25,7 @@ typedef struct
 struct Scene
 {
 	int    sceneID;
-	Scene *next;
+	Scene *prev;
 };
 
 typedef struct
