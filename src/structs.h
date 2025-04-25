@@ -1,3 +1,5 @@
+typedef struct Scene Scene;
+
 typedef struct
 {
 	void (*logic)(void);
@@ -19,3 +21,14 @@ typedef struct
 	Delegate	 delegate;
 	Mouse		 mouse;
 } App;
+
+struct Scene
+{
+	int    sceneID;
+	Scene *next;
+};
+
+typedef struct
+{
+	Scene sceneHead, *sceneTail;
+} StoryBoard;
