@@ -1,0 +1,19 @@
+#define SCREEN_WIDTH  256*3
+#define SCREEN_HEIGHT 300*3
+
+#define MAX_MOUSE_BUTTONS 6
+
+#define MAX_SND_CHANNELS 8
+
+enum
+{
+	CH_ANY = -1,
+	CH_PLAYER,
+	CH_ALIEN_FIRE
+};
+
+enum
+{
+	SND_USER_CLICK,
+    SND_MAX
+};
