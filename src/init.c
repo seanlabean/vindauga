@@ -48,8 +48,6 @@ void initSDL(void)
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-	SDL_SetCursor(SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND));
-
 	SDL_ShowCursor(1);
 
 }

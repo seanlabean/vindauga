@@ -18,6 +18,8 @@ static SDL_Texture *scene3Texture;
 static SDL_Texture *scene4Texture;
 static SDL_Texture *scene4Texture2;
 static SDL_Texture *sceneTexture;
+static SDL_Rect r;
+int drawRect = 0;
 
 int sceneCounter = 0;
 
@@ -67,24 +69,35 @@ static void doScene(void)
                 sceneTexture = startTexture2;
             }
 
-            if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y > SCREEN_HEIGHT/1.5 && app.mouse.button[SDL_BUTTON_LEFT])
+            if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y > SCREEN_HEIGHT/1.5)
             {
-                //printf("%d", app.mouse.x);
-                //printf("%d", app.mouse.y);
-                //printf("%d", SCREEN_WIDTH/2);
-                sceneCounter = 1;
+                // Create a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
+                drawRect = 1;
+                r.x = 50;
+                r.y = 50;
+                r.w = 50;
+                r.h = 50;
+
+                if (app.mouse.button[SDL_BUTTON_LEFT])
+                {
+                    sceneCounter = 1;
+                }
             }
-            if (app.mouse.x > SCREEN_WIDTH/1.5 && app.mouse.x < SCREEN_WIDTH && app.mouse.y < SCREEN_HEIGHT/3 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x > SCREEN_WIDTH/1.5 && app.mouse.x < SCREEN_WIDTH && app.mouse.y < SCREEN_HEIGHT/3 && app.mouse.button[SDL_BUTTON_LEFT])
             {
                 sceneCounter = 2;
             }
-            if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y < SCREEN_HEIGHT/2.5 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y < SCREEN_HEIGHT/2.5 && app.mouse.button[SDL_BUTTON_LEFT])
             {
                 sceneCounter = 3;
             }
-            if (app.mouse.x < 100 && app.mouse.y < 650 && app.mouse.y > 550 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x < 100 && app.mouse.y < 650 && app.mouse.y > 550 && app.mouse.button[SDL_BUTTON_LEFT])
             {
                 sceneCounter = 4;
+            } 
+            else
+            {
+                drawRect = 0;
             }
             break;
         case 1:
@@ -128,4 +141,17 @@ static void drawScene(void)
     dest.h = SCREEN_WIDTH; //SCREEN_HEIGHT/2;
 
     SDL_RenderCopy(app.renderer, sceneTexture, NULL, &dest);
+
+    if (drawRect == 1)
+    {
+        // Set render color to blue ( rect will be rendered in this color )
+        SDL_SetRenderDrawColor( app.renderer, 0, 0, 255, 255 );
+
+        // Render rect
+        SDL_RenderDrawRect( app.renderer, &r );
+
+        // Render the rect to the screen
+        SDL_RenderPresent(app.renderer);
+    }
+
 }
