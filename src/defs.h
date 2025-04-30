@@ -5,6 +5,8 @@
 
 #define MAX_SND_CHANNELS 8
 
+#define DEBUG 1
+
 enum
 {
 	CH_ANY = -1,

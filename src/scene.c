@@ -68,15 +68,17 @@ static void doScene(void)
             {
                 sceneTexture = startTexture2;
             }
-
-            if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y > SCREEN_HEIGHT/1.5)
+            int xmax = 340; int xmin = 280; int ymax = 760; int ymin = 650;
+            if (app.mouse.x > xmin && app.mouse.x < xmax && app.mouse.y > ymin && app.mouse.y < ymax)
             {
-                // Create a rect at pos ( 50, 50 ) that's 50 pixels wide and 50 pixels high.
-                drawRect = 1;
-                r.x = 50;
-                r.y = 50;
-                r.w = 50;
-                r.h = 50;
+                if (DEBUG)
+                {
+                    drawRect = 1;
+                    r.x = xmin;
+                    r.y = ymin;
+                    r.w = xmax-xmin;
+                    r.h = ymax-ymin;
+                }
 
                 if (app.mouse.button[SDL_BUTTON_LEFT])
                 {
@@ -102,6 +104,7 @@ static void doScene(void)
             break;
         case 1:
             sceneTexture = scene1Texture;
+            drawRect = 0;
             break;
         case 2:
             sceneTexture = scene2Texture;
@@ -127,6 +130,7 @@ static void doScene(void)
 
     if (app.mouse.button[SDL_BUTTON_RIGHT])
     {
+        SDL_RenderClear(app.renderer);
         sceneTexture = startTexture;
         sceneCounter = 0;
     }
@@ -144,14 +148,13 @@ static void drawScene(void)
 
     if (drawRect == 1)
     {
-        // Set render color to blue ( rect will be rendered in this color )
-        SDL_SetRenderDrawColor( app.renderer, 0, 0, 255, 255 );
+        SDL_SetRenderDrawColor( app.renderer, 255, 0, 0, 255 );
 
         // Render rect
         SDL_RenderDrawRect( app.renderer, &r );
 
-        // Render the rect to the screen
-        SDL_RenderPresent(app.renderer);
+        // Render the rect to the screen - This causes previously rendered sceneTexture to flicker onto screen briefly for some reason. - SCL
+        //SDL_RenderPresent(app.renderer);
     }
 
 }
