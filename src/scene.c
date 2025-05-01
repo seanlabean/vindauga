@@ -17,6 +17,7 @@ static SDL_Texture *scene2Texture;
 static SDL_Texture *scene3Texture;
 static SDL_Texture *scene4Texture;
 static SDL_Texture *scene4Texture2;
+static SDL_Texture *scene11Texture;
 static SDL_Texture *sceneTexture;
 static SDL_Rect r;
 int drawRect = 0;
@@ -35,6 +36,7 @@ void initScene(void)
     scene3Texture = loadTexture("gfx/stationScene.png");
     scene4Texture = loadTexture("gfx/cowboy1.png");
     scene4Texture2 = loadTexture("gfx/cowboy2.png");
+    scene11Texture = loadTexture("gfx/mouthEyeScene.png");
 
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", "music/welcome.ogg");
 	loadMusic("music/welcome.ogg");
@@ -55,6 +57,12 @@ static void logic(void)
 
 static void doScene(void)
 {
+    struct Clickable c0_1 = {340, 260, 760, 650};
+    struct Clickable c0_2 = {660, 540, 240, 120};
+    struct Clickable c0_3 = {400, 280, 260, 140};
+    struct Clickable c0_4 = {100, 20, 660, 580};
+
+    struct Clickable c1_1 = {360, 240, 530, 480};
     srand(time(NULL));
     int nRandonNumber = rand()%((10+1)-1) + 1;
     switch (sceneCounter)
@@ -68,16 +76,16 @@ static void doScene(void)
             {
                 sceneTexture = startTexture2;
             }
-            int xmax = 340; int xmin = 280; int ymax = 760; int ymin = 650;
-            if (app.mouse.x > xmin && app.mouse.x < xmax && app.mouse.y > ymin && app.mouse.y < ymax)
+            
+            if (app.mouse.x > c0_1.xmin && app.mouse.x < c0_1.xmax && app.mouse.y > c0_1.ymin && app.mouse.y < c0_1.ymax)
             {
                 if (DEBUG)
                 {
                     drawRect = 1;
-                    r.x = xmin;
-                    r.y = ymin;
-                    r.w = xmax-xmin;
-                    r.h = ymax-ymin;
+                    r.x = c0_1.xmin;
+                    r.y = c0_1.ymin;
+                    r.w = c0_1.xmax-c0_1.xmin;
+                    r.h = c0_1.ymax-c0_1.ymin;
                 }
 
                 if (app.mouse.button[SDL_BUTTON_LEFT])
@@ -85,18 +93,54 @@ static void doScene(void)
                     sceneCounter = 1;
                 }
             }
-            else if (app.mouse.x > SCREEN_WIDTH/1.5 && app.mouse.x < SCREEN_WIDTH && app.mouse.y < SCREEN_HEIGHT/3 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x > c0_2.xmin && app.mouse.x < c0_2.xmax && app.mouse.y > c0_2.ymin && app.mouse.y < c0_2.ymax)
             {
-                sceneCounter = 2;
+                if (DEBUG)
+                {
+                    drawRect = 1;
+                    r.x = c0_2.xmin;
+                    r.y = c0_2.ymin;
+                    r.w = c0_2.xmax-c0_2.xmin;
+                    r.h = c0_2.ymax-c0_2.ymin;
+                }
+
+                if (app.mouse.button[SDL_BUTTON_LEFT])
+                {
+                    sceneCounter = 2;
+                }
             }
-            else if (app.mouse.x > SCREEN_WIDTH/2.5 && app.mouse.x < SCREEN_WIDTH/1.75 && app.mouse.y < SCREEN_HEIGHT/2.5 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x > c0_3.xmin && app.mouse.x < c0_3.xmax && app.mouse.y > c0_3.ymin && app.mouse.y < c0_3.ymax)
             {
-                sceneCounter = 3;
+                if (DEBUG)
+                {
+                    drawRect = 1;
+                    r.x = c0_3.xmin;
+                    r.y = c0_3.ymin;
+                    r.w = c0_3.xmax-c0_3.xmin;
+                    r.h = c0_3.ymax-c0_3.ymin;
+                }
+
+                if (app.mouse.button[SDL_BUTTON_LEFT])
+                {
+                    sceneCounter = 3;
+                }
             }
-            else if (app.mouse.x < 100 && app.mouse.y < 650 && app.mouse.y > 550 && app.mouse.button[SDL_BUTTON_LEFT])
+            else if (app.mouse.x > c0_4.xmin && app.mouse.x < c0_4.xmax && app.mouse.y > c0_4.ymin && app.mouse.y < c0_4.ymax)
             {
-                sceneCounter = 4;
-            } 
+                if (DEBUG)
+                {
+                    drawRect = 1;
+                    r.x = c0_4.xmin;
+                    r.y = c0_4.ymin;
+                    r.w = c0_4.xmax-c0_4.xmin;
+                    r.h = c0_4.ymax-c0_4.ymin;
+                }
+
+                if (app.mouse.button[SDL_BUTTON_LEFT])
+                {
+                    sceneCounter = 4;
+                }
+            }
             else
             {
                 drawRect = 0;
@@ -104,13 +148,34 @@ static void doScene(void)
             break;
         case 1:
             sceneTexture = scene1Texture;
-            drawRect = 0;
+            if (app.mouse.x > c1_1.xmin && app.mouse.x < c1_1.xmax && app.mouse.y > c1_1.ymin && app.mouse.y < c1_1.ymax)
+            {
+                if (DEBUG)
+                {
+                    drawRect = 1;
+                    r.x = c1_1.xmin;
+                    r.y = c1_1.ymin;
+                    r.w = c1_1.xmax-c1_1.xmin;
+                    r.h = c1_1.ymax-c1_1.ymin;
+                }
+
+                if (app.mouse.button[SDL_BUTTON_LEFT])
+                {
+                    sceneCounter = 11;
+                }
+            }
+            else
+            {
+                drawRect = 0;
+            }
             break;
         case 2:
             sceneTexture = scene2Texture;
+            drawRect = 0;
             break;
         case 3:
             sceneTexture = scene3Texture;
+            drawRect = 0;
             break;
         case 4:
             if (nRandonNumber <=5)
@@ -120,6 +185,11 @@ static void doScene(void)
             {
                 sceneTexture = scene4Texture2;
             }
+            drawRect = 0;
+            break;
+        case 11:
+            sceneTexture = scene11Texture;
+            drawRect = 0;
             break;
         default:
             sceneTexture = startTexture;

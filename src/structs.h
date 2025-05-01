@@ -22,6 +22,14 @@ typedef struct
 	Mouse		 mouse;
 } App;
 
+struct Clickable
+{
+	int xmax;
+	int xmin;
+	int ymax;
+	int ymin;
+};
+
 struct Scene
 {
 	int    sceneID;
