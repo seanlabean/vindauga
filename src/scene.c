@@ -24,6 +24,24 @@ int drawRect = 0;
 
 int sceneCounter = 0;
 
+int history[MAX_HISTORY];
+int history_top = 0;
+
+void push_scene(int oldScene) {
+    if (history_top < MAX_HISTORY) {
+        history[history_top++] = oldScene;
+    }
+}
+
+int pop_scene(void) {
+    if (history_top > 0) {
+        return history[--history_top];
+    }
+    else {
+        return 0;
+    }
+}
+
 void initScene(void)
 {
     app.delegate.logic = logic;
@@ -90,6 +108,7 @@ static void doScene(void)
 
                 if (app.mouse.button[SDL_BUTTON_LEFT])
                 {
+                    push_scene(sceneCounter);
                     sceneCounter = 1;
                 }
             }
@@ -161,6 +180,7 @@ static void doScene(void)
 
                 if (app.mouse.button[SDL_BUTTON_LEFT])
                 {
+                    push_scene(sceneCounter);
                     sceneCounter = 11;
                 }
             }
@@ -201,8 +221,8 @@ static void doScene(void)
     if (app.mouse.button[SDL_BUTTON_RIGHT])
     {
         SDL_RenderClear(app.renderer);
-        sceneTexture = startTexture;
-        sceneCounter = 0;
+        sceneCounter = pop_scene();
+        SDL_Delay(100);
     }
 }
 
