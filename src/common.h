@@ -7,3 +7,4 @@
 #include "string.h"
 #include "structs.h"
 #include <time.h>
+#include "SDL2/SDL_ttf.h" 

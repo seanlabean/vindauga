@@ -48,6 +48,8 @@ void initSDL(void)
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
+    TTF_Init();
+
 	SDL_ShowCursor(1);
 
 }
@@ -57,6 +59,8 @@ void cleanup(void)
 	SDL_DestroyRenderer(app.renderer);
 
 	SDL_DestroyWindow(app.window);
+
+	TTF_Quit();
 
 	SDL_Quit();
 }

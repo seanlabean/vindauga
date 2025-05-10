@@ -19,8 +19,14 @@ static SDL_Texture *scene4Texture;
 static SDL_Texture *scene4Texture2;
 static SDL_Texture *scene11Texture;
 static SDL_Texture *sceneTexture;
+//static SDL_Texture *text_texture;
 static SDL_Rect r;
 int drawRect = 0;
+TTF_Font *font;
+
+SDL_Surface *text;
+// Set color to white
+SDL_Color color = { 255, 255, 255 };
 
 int sceneCounter = 0;
 
@@ -61,6 +67,8 @@ void initScene(void)
 
 	playMusic(1);
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "playing music");
+
+    font = TTF_OpenFont("font/Heyam.ttf", 24);
 }
 
 static void draw(void)
@@ -222,7 +230,7 @@ static void doScene(void)
     {
         SDL_RenderClear(app.renderer);
         sceneCounter = pop_scene();
-        SDL_Delay(100);
+        SDL_Delay(150);
     }
 }
 
@@ -235,6 +243,51 @@ static void drawScene(void)
     dest.h = SCREEN_WIDTH; //SCREEN_HEIGHT/2;
 
     SDL_RenderCopy(app.renderer, sceneTexture, NULL, &dest);
+
+    // text = TTF_RenderText_Solid( font, "Hello World!", color );
+
+    // text_texture = SDL_CreateTextureFromSurface( app.renderer, text );
+    
+    // SDL_Rect dest2 = { 0, 0, text->w, text->h };
+    
+    // SDL_RenderCopy( app.renderer, text_texture, NULL, &dest2 );
+    // SDL_FreeSurface(text);
+    // SDL_DestroyTexture(text_texture);
+
+    //this opens a font style and sets a size
+    TTF_Font* Sans = TTF_OpenFont("font/Heyam.ttf", 24);
+
+    // this is the color in rgb format,
+    // maxing out all would give you the color white,
+    // and it will be your text's color
+    SDL_Color White = {255, 255, 255};
+
+    // as TTF_RenderText_Solid could only be used on
+    // SDL_Surface then you have to create the surface first
+    SDL_Surface* surfaceMessage =
+        TTF_RenderText_Solid(Sans, "put your text here", White); 
+
+    // now you can convert it into a texture
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(app.renderer, surfaceMessage);
+
+    SDL_Rect Message_rect; //create a rect
+    Message_rect.x = 100;  //controls the rect's x coordinate 
+    Message_rect.y = SCREEN_HEIGHT - 100; // controls the rect's y coordinte
+    Message_rect.w = 100; // controls the width of the rect
+    Message_rect.h = 100; // controls the height of the rect
+
+    // (0,0) is on the top left of the window/screen,
+    // think a rect as the text's box,
+    // that way it would be very simple to understand
+
+    // Now since it's a texture, you have to put RenderCopy
+    // in your game loop area, the area where the whole code executes
+
+    // you put the renderer's name first, the Message,
+    // the crop size (you can ignore this if you don't want
+    // to dabble with cropping), and the rect which is the size
+    // and coordinate of your texture
+    SDL_RenderCopy(app.renderer, Message, NULL, &Message_rect);
 
     if (drawRect == 1)
     {
