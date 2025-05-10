@@ -87,8 +87,8 @@ static void doScene(void)
     struct Clickable c0_2 = {660, 540, 240, 120};
     struct Clickable c0_3 = {400, 280, 260, 140};
     struct Clickable c0_4 = {100, 20, 660, 580};
-
     struct Clickable c1_1 = {360, 240, 530, 480};
+
     srand(time(NULL));
     int nRandonNumber = rand()%((10+1)-1) + 1;
     switch (sceneCounter)
@@ -265,16 +265,16 @@ static void drawScene(void)
     // as TTF_RenderText_Solid could only be used on
     // SDL_Surface then you have to create the surface first
     SDL_Surface* surfaceMessage =
-        TTF_RenderText_Solid(Sans, "put your text here", White); 
+        TTF_RenderText_Solid(Sans, "Welcome to Vindauga.\n Left-click to delve deeper, right-click to step back.", White); 
 
     // now you can convert it into a texture
     SDL_Texture* Message = SDL_CreateTextureFromSurface(app.renderer, surfaceMessage);
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = 100;  //controls the rect's x coordinate 
+    Message_rect.x = 25;  //controls the rect's x coordinate 
     Message_rect.y = SCREEN_HEIGHT - 100; // controls the rect's y coordinte
-    Message_rect.w = 100; // controls the width of the rect
-    Message_rect.h = 100; // controls the height of the rect
+    Message_rect.w = surfaceMessage->w; // controls the width of the rect
+    Message_rect.h = surfaceMessage->h; // controls the height of the rect
 
     // (0,0) is on the top left of the window/screen,
     // think a rect as the text's box,
@@ -288,6 +288,8 @@ static void drawScene(void)
     // to dabble with cropping), and the rect which is the size
     // and coordinate of your texture
     SDL_RenderCopy(app.renderer, Message, NULL, &Message_rect);
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(Message);
 
     if (drawRect == 1)
     {
@@ -299,5 +301,4 @@ static void drawScene(void)
         // Render the rect to the screen - This causes previously rendered sceneTexture to flicker onto screen briefly for some reason. - SCL
         //SDL_RenderPresent(app.renderer);
     }
-
 }
