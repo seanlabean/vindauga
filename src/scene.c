@@ -29,6 +29,7 @@ SDL_Surface *text;
 SDL_Color color = { 255, 255, 255 };
 
 int sceneCounter = 0;
+char sceneText[100];
 
 int history[MAX_HISTORY];
 int history_top = 0;
@@ -68,7 +69,7 @@ void initScene(void)
 	playMusic(1);
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "playing music");
 
-    font = TTF_OpenFont("font/Heyam.ttf", 24);
+    font = TTF_OpenFont("font/Roboto-Regular.ttf", 20);
 }
 
 static void draw(void)
@@ -102,7 +103,7 @@ static void doScene(void)
             {
                 sceneTexture = startTexture2;
             }
-            
+            strcpy(sceneText,"Welcome to Vindauga. Left-click to delve deeper, right-click to step back.");
             if (app.mouse.x > c0_1.xmin && app.mouse.x < c0_1.xmax && app.mouse.y > c0_1.ymin && app.mouse.y < c0_1.ymax)
             {
                 if (DEBUG)
@@ -175,6 +176,7 @@ static void doScene(void)
             break;
         case 1:
             sceneTexture = scene1Texture;
+            strcpy(sceneText,"( As she turns to face you, she smiles lightly. )");
             if (app.mouse.x > c1_1.xmin && app.mouse.x < c1_1.xmax && app.mouse.y > c1_1.ymin && app.mouse.y < c1_1.ymax)
             {
                 if (DEBUG)
@@ -213,10 +215,12 @@ static void doScene(void)
             {
                 sceneTexture = scene4Texture2;
             }
+            strcpy(sceneText,"'Hey, kid. Having fun yet?' ( Wisps of smoke curl around the brim of his hat. )");
             drawRect = 0;
             break;
         case 11:
             sceneTexture = scene11Texture;
+            strcpy(sceneText,"bleh.");
             drawRect = 0;
             break;
         default:
@@ -255,7 +259,7 @@ static void drawScene(void)
     // SDL_DestroyTexture(text_texture);
 
     //this opens a font style and sets a size
-    TTF_Font* Sans = TTF_OpenFont("font/Heyam.ttf", 24);
+    // TTF_Font* Sans = TTF_OpenFont("font/Heyam.ttf", 24);
 
     // this is the color in rgb format,
     // maxing out all would give you the color white,
@@ -265,13 +269,13 @@ static void drawScene(void)
     // as TTF_RenderText_Solid could only be used on
     // SDL_Surface then you have to create the surface first
     SDL_Surface* surfaceMessage =
-        TTF_RenderText_Solid(Sans, "Welcome to Vindauga.\n Left-click to delve deeper, right-click to step back.", White); 
+        TTF_RenderText_Solid(font, sceneText, White); 
 
     // now you can convert it into a texture
     SDL_Texture* Message = SDL_CreateTextureFromSurface(app.renderer, surfaceMessage);
 
     SDL_Rect Message_rect; //create a rect
-    Message_rect.x = 25;  //controls the rect's x coordinate 
+    Message_rect.x = 20;  //controls the rect's x coordinate 
     Message_rect.y = SCREEN_HEIGHT - 100; // controls the rect's y coordinte
     Message_rect.w = surfaceMessage->w; // controls the width of the rect
     Message_rect.h = surfaceMessage->h; // controls the height of the rect
