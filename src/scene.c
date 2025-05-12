@@ -240,6 +240,8 @@ static void doScene(void)
 
 static void drawScene(void)
 {
+    SDL_RenderClear(app.renderer);
+    
     SDL_Rect dest;
     dest.x = 0;
     dest.y = 0;
